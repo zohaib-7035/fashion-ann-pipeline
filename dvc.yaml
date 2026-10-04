@@ -14,6 +14,7 @@ stages:
     params:
       - preprocess.test_size
       - preprocess.seed
+      - preprocess.normalization
     outs:
       - data/processed
 

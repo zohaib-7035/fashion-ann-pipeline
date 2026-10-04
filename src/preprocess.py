@@ -1,4 +1,4 @@
-"""Stage 2: normalize pixels to [0, 1] and split a validation set."""
+"""Stage 2: normalize pixels and split a validation set."""
 import os
 
 import numpy as np
@@ -13,9 +13,16 @@ def main():
     train = np.load("data/raw/train.npz")
     test = np.load("data/raw/test.npz")
 
-    # Normalization step (min-max scaling to [0, 1])
-    x_train = train["x"].astype("float32") / 127.5 - 1.0
-    x_test = test["x"].astype("float32") / 127.5 - 1.0
+    # Normalization step (reconciled: method chosen in params.yaml)
+    x_train = train["x"].astype("float32")
+    x_test = test["x"].astype("float32")
+    if params["normalization"] == "standard":      # teammate's approach
+        mean, std = x_train.mean(), x_train.std()
+        x_train, x_test = (x_train - mean) / std, (x_test - mean) / std
+    elif params["normalization"] == "symmetric":   # main's approach
+        x_train, x_test = x_train / 127.5 - 1.0, x_test / 127.5 - 1.0
+    else:                                          # "minmax" (original)
+        x_train, x_test = x_train / 255.0, x_test / 255.0
 
     x_tr, x_val, y_tr, y_val = train_test_split(
         x_train, train["y"],
