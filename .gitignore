@@ -1,0 +1,17 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# DVC internals (DVC also keeps its own .dvc/.gitignore)
+.dvc/cache
+.dvc/tmp
+.dvc/config.local
+
+# Large artifacts handled by DVC
+*.h5
+
+# Google credentials - never commit
+client_secret*.json
+*credentials*.json
