@@ -14,8 +14,8 @@ def main():
     test = np.load("data/raw/test.npz")
 
     # Normalization step (min-max scaling to [0, 1])
-    x_train = train["x"].astype("float32") / 255.0
-    x_test = test["x"].astype("float32") / 255.0
+    x_train = train["x"].astype("float32") / 127.5 - 1.0
+    x_test = test["x"].astype("float32") / 127.5 - 1.0
 
     x_tr, x_val, y_tr, y_val = train_test_split(
         x_train, train["y"],
